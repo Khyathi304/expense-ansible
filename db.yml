@@ -1,0 +1,22 @@
+- name: Configure DB server
+  hosts: db
+  become: yes
+  vars:
+    login_host: db.daws304.online
+  tasks:
+  - name: Install MySQL Server
+    ansible.builtin.dnf:
+      name: mysql-server
+      state: latest
+
+  - name: Start and Enable Server
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
+
+  - name: Check DB Connect
+    community.sql.sql_info:
+      login_user: root
+      login_password: ExpenseApp@1
+      login_host: "{{ login_host }}"
