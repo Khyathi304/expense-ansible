@@ -32,3 +32,8 @@
       src: /tmp/backend.zip
       dest: /app
       remote_src: yes
+
+  - name: Install depemdencies
+    ansible.builtin.command: npm install
+    args:
+      chown: /app
