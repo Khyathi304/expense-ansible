@@ -16,8 +16,8 @@
      name: {{item}}
      state: latest
       loop
-        - nodejs
-        - mysql
+      - nodejs
+      - mysql
 
   - name: Adding expense user
     ansible.builtin.user:
