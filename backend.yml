@@ -1,6 +1,9 @@
 - name: Configure backend server
   hosts: backend
   become: yes
+  vars:
+    login_host: db.daws304.online
+    login_password: ExpenseApp@1
   tasks:
   - name: Disabling Nodejs 18 version
     ansible.builtin.command: dnf module disable nodejs -y
@@ -37,3 +40,25 @@
     ansible.builtin.command: npm install
     args:
       chdir: /app
+
+  - name: Copy backnd service
+     ansible.builtin.copy:
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
+      
+  - name: install python mysql dependencies
+    ansible.builtin.pip:
+      name:
+      - PyMySQL 
+      - cryptography
+      executable: pip3.9
+
+  - name: Import data into mysql
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: "{{ login_password }}"
+      login_host: "{{ login_host }}"
+      target: /app/schema/backend.sql
+      state: dump
+
+  
