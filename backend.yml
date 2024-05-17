@@ -1,7 +1,6 @@
 - name: Configure backend server
   hosts: backend
   become: yes
-  vars:
   tasks:
   - name: Disabling Nodejs 18 version
     ansible.builtin.command: dnf module disable nodejs -y
@@ -29,6 +28,6 @@
       dest: /tmp/backend.zip
 
   - name: Extract backend code
-  ansible.builtin.unarchive:
-    src: /tmp/backend.zip
-    dest: /app
+    ansible.builtin.unarchive:
+      src: /tmp/backend.zip
+      dest: /app
